@@ -1,6 +1,4 @@
 const router = require("express").Router();
-// const express = require("express");
-// const router = express.Router();
 const bcrypt = require("bcrypt");
 const pool = require("../db");
 const validInfo = require("../middleware/validInfo");
@@ -11,8 +9,6 @@ const authorization = require("../middleware/authorization");
 router.post("/register", validInfo, async (req, res) => {
     try {
         const { email, name, password } = req.body;
-
-
 
 
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
@@ -60,7 +56,7 @@ router.post("/login", validInfo, async (req, res) => {
 
 
         //check if user doesn't exist
-        const user = await pool.query("SELECT * FROM userstable WHERE user_email = $1", [email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
         if (user.rows.length === 0) {
             return res.status(401).json("Password or Email is incorrect");
         }
